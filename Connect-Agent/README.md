@@ -54,6 +54,25 @@ The agent will gather data from all sources and produce a Connect document organ
 
 Edit `config/variables.yaml` with your new dates, file paths, and ADO query URLs. That's it — the prompt and instructions don't need to change between periods.
 
+## Personal Repo Migration (Optional)
+
+If you want to keep refining this agent independently, migrate this folder to your personal `.github` repo and treat this repository as historical reference.
+
+Use:
+
+```powershell
+pwsh -File Connect-Agent/migration/export-to-personal-github.ps1 -TargetRepoPath "C:\path\to\your-personal-github-repo"
+```
+
+Migration assets:
+
+- `migration/MIGRATE-TO-PERSONAL-GITHUB.md` (runbook)
+- `migration/export-to-personal-github.ps1` (copy script)
+
+The script also moves Q&A agents into a dedicated future-ideas path in your personal repo:
+
+- `.github/work-in-progress/qa-agent-ideas/`
+
 ## File Structure
 
 ```
