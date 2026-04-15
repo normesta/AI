@@ -6,13 +6,13 @@
 # ============================================================
 
 # --- Connect Period ---
-connectPeriodStart: "10-01-2025"
-connectPeriodEnd: "3-31-2026"
+connectPeriodStart: "11-01-2025"
+connectPeriodEnd: "03-31-2026"
 
 # --- Personal Documents ---
-personalNotesPath: "C:\\Directory\\fileName.docx"
-exampleDocumentPath: "C:\\Directory\\fileName.docx"
+exampleDocumentPath: "C:\\github\\AI-Norm\\Connect-Agent\\Oct2025-connect.pdf"
 
 # --- Azure DevOps Queries ---
-adoUserStoriesQuery: "YourQueryLink"
-adoMentionsQuery: "YourQueryLink"
+adoUserStoriesQuery: "https://dev.azure.com/msft-skilling/Content/_queries/query/c9957b70-4af7-453f-ae6b-273510fee6eb/"
+adoMentionsQuery: ""
+# adoMentionsQuery intentionally left blank — skip mentions per user request
