@@ -32,8 +32,47 @@ Use the **ADO MCP server** to query two work item sets:
 
 For each query, extract titles, descriptions, acceptance criteria, and any comments that show the user's involvement.
 
-## Step 4: Synthesize and Deduplicate
+## Step 4: Query GitHub Pull Requests
 
-Merge data from all three sources. Deduplicate overlapping items. Prioritize the personal notes narrative while using M365 and ADO data as supporting evidence.
+Use the **GitHub MCP server** (`mcp_github_search_pull_requests`) to retrieve merged pull requests authored by or assigned to the user during the Connect period.
 
-Flag any items from M365 or ADO that represent **new impact** not mentioned in the personal notes — these should be included in the final document.
+Run **two separate queries** to capture all relevant PRs. Scope both to `repo:MicrosoftDocs/azure-docs-pr`. Convert dates to `YYYY-MM-DD` format for GitHub search syntax:
+
+1. **Author query** — PRs created by the user:
+   ```
+   repo:MicrosoftDocs/azure-docs-pr is:pr is:merged author:{githubUsername} merged:{connectPeriodStart}..{connectPeriodEnd}
+   ```
+2. **Assignee query** — PRs assigned to the user (may overlap with author query; deduplicate by PR #):
+   ```
+   repo:MicrosoftDocs/azure-docs-pr is:pr is:merged assignee:{githubUsername} merged:{connectPeriodStart}..{connectPeriodEnd}
+   ```
+
+For each unique PR returned, extract the following fields:
+
+| Field | How to derive it |
+|---|---|
+| **PR Name** | PR title |
+| **PR #** | PR number |
+| **Summary of Work** | PR body/description (summarize if long) |
+| **Number of Articles impacted** | Count of `.md` files in the PR's changed files list |
+| **Azure Service** | Derived from the changed file paths (see rules below) |
+
+### Deriving Azure Service from file paths
+
+Inspect the changed file paths for each PR. Apply these rules **in order**:
+
+1. **Sub-service exceptions** — if any changed file path starts with one of the following prefixes, use the named service regardless of the top-level folder:
+   - `articles/virtual-network/IP-Services/` → **IP Services**
+   - `articles/private-link/network-security-perimeter/` → **Network Security Perimeter**
+2. **Default rule** — use the first path segment after `articles/` as the service name:
+   - `articles/load-balancer/` → **Load Balancer**
+   - `articles/application-gateway/` → **Application Gateway**
+   - `articles/virtual-network/` → **Virtual Network** (only if no sub-service exception matched)
+
+If a PR touches files across multiple services, list all applicable services.
+
+## Step 5: Synthesize and Deduplicate
+
+Merge data from all four sources. Deduplicate overlapping items. Prioritize the personal notes narrative while using M365, ADO, and GitHub PR data as supporting evidence.
+
+Flag any items from M365, ADO, or GitHub PRs that represent **new impact** not mentioned in the personal notes — these should be included in the final document.

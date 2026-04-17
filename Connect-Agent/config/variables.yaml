@@ -12,6 +12,9 @@ connectPeriodEnd: "03-31-2026"
 # --- Personal Documents ---
 exampleDocumentPath: "C:\\github\\AI-Norm\\Connect-Agent\\Oct2025-connect.pdf"
 
+# --- GitHub ---
+githubUsername: "mbender-ms"
+
 # --- Azure DevOps Queries ---
 adoUserStoriesQuery: "https://dev.azure.com/msft-skilling/Content/_queries/query/c9957b70-4af7-453f-ae6b-273510fee6eb/"
 adoMentionsQuery: ""
